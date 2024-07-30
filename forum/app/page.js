@@ -1,11 +1,17 @@
-import { MongoClient } from "mongodb";
+import {connectDB} from "/utils/database.js";
 
 export default async function Home() {
-  const client = await MongoClient.connect('mongodb+srv://jiseok:ljs14070327@leejiseok.1ws0w9j.mongodb.net/?retryWrites=true&w=majority&appName=leejiseok',{useNewUrlParser:true});
-  const db = client.db("forum");
-  db.collection('post').find();
 
+  let client = await connectDB;
+
+  const db = client.db("forum");
+
+  let result = await db.collection('post').find().toArray();
+  
   return (
-    <div>테스트</div>
+    <div>{result[0].title}
+    <br></br>
+    {result[0].content}
+  </div>
   );
 }
